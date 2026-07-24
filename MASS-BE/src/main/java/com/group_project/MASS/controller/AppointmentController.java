@@ -3,6 +3,12 @@ package com.group_project.MASS.controller;
 import com.group_project.MASS.dto.AppointmentDto;
 import com.group_project.MASS.dto.request.AppointmentRequestDto;
 import com.group_project.MASS.dto.request.RescheduleRequestDto;
+import com.group_project.MASS.dto.request.CancelAppointmentRequest;
+import com.group_project.MASS.dto.request.CreateWalkInAppointmentRequest;
+import com.group_project.MASS.dto.request.UpdateAppointmentRequest;
+import com.group_project.MASS.dto.request.UpdateAppointmentStatusRequest;
+import com.group_project.MASS.dto.response.*;
+import com.group_project.MASS.model.AppointmentStatus;
 import com.group_project.MASS.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +30,8 @@ public class AppointmentController {
 
     private String getEmail(Principal principal) {
         if (principal == null) {
-            // Fallback for testing if security is not fully enforced
-            return "patient@test.com"; 
+
+            return "patient@test.com";
         }
         return principal.getName();
     }

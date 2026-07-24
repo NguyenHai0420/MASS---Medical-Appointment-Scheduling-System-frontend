@@ -18,9 +18,8 @@ public class AppointmentResponse {
     private String patientName;
     private String patientEmail;
     private String reason;
-    private String status;         // PENDING, CONFIRMED, COMPLETED, CANCELLED
+    private String status;
 
-    // Thông tin lịch hẹn
     private LocalDate scheduleDate;
     private LocalTime scheduleStartTime;
     private LocalTime scheduleEndTime;

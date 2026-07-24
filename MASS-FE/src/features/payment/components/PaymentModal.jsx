@@ -14,7 +14,6 @@ const PaymentModal = ({ show, onHide, appointment, onPaymentSuccess }) => {
       fetchPaymentLink();
     }
 
-    // Cleanup khi đóng modal
     return () => {
       if (!show) {
         setPaymentData(null);
@@ -72,7 +71,7 @@ const PaymentModal = ({ show, onHide, appointment, onPaymentSuccess }) => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // fallback
+
     }
   };
 
@@ -90,7 +89,7 @@ const PaymentModal = ({ show, onHide, appointment, onPaymentSuccess }) => {
       </Modal.Header>
 
       <Modal.Body className="p-4">
-        {/* Loading */}
+        {}
         {loading && (
           <div className="text-center py-5">
             <Spinner animation="border" style={{ color: '#1b6ca8' }} />
@@ -100,7 +99,7 @@ const PaymentModal = ({ show, onHide, appointment, onPaymentSuccess }) => {
           </div>
         )}
 
-        {/* Error */}
+        {}
         {!loading && error && (
           <>
             <Alert variant="danger" style={{ fontSize: 14 }}>
@@ -117,20 +116,20 @@ const PaymentModal = ({ show, onHide, appointment, onPaymentSuccess }) => {
           </>
         )}
 
-        {/* Success – hiển thị QR + link */}
+        {}
         {!loading && !error && paymentData && (
           <div className="text-center">
-            {/* Thông tin appointment */}
+            {}
             <p className="text-muted mb-1" style={{ fontSize: 13 }}>
               Lịch hẹn #{appointment?.appointmentId} – {appointment?.patientName}
             </p>
 
-            {/* Số tiền */}
+            {}
             <div className="appt-payment-amount mb-3">
               {paymentData.amount ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(paymentData.amount) : "10000 VND"}
             </div>
 
-            {/* QR Code */}
+            {}
             {paymentData.qrCode && (
               <div className="appt-qr-wrapper mb-3">
                 <img
@@ -144,7 +143,7 @@ const PaymentModal = ({ show, onHide, appointment, onPaymentSuccess }) => {
               </div>
             )}
 
-            {/* Checkout URL */}
+            {}
             <div
               className="d-flex align-items-center gap-2 p-2 mb-3 rounded"
               style={{ background: '#f8fafc', border: '1px solid #e2e8f0', fontSize: 12 }}
@@ -171,7 +170,7 @@ const PaymentModal = ({ show, onHide, appointment, onPaymentSuccess }) => {
               </button>
             </div>
 
-            {/* Mở link */}
+            {}
             <a
               href={paymentData.checkoutUrl}
               target="_blank"

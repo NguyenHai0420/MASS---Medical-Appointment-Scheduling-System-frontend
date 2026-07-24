@@ -1,12 +1,11 @@
 import axiosClient from '../../../shared/services/axiosClient';
 
 const patientService = {
-  // Specialties
+
   getSpecialties: () => {
     return axiosClient.get('/api/specialties');
   },
 
-  // Doctors
   getDoctors: (specialtyId = null, name = null) => {
     let url = '/api/doctors';
     const params = new URLSearchParams();
@@ -20,13 +19,11 @@ const patientService = {
     return axiosClient.get(`/api/doctors/${id}`);
   },
 
-  // Schedules
   getDoctorSchedules: (doctorId, date) => {
     return axiosClient.get(`/api/appointments/available-slots`, {
       params: { doctorProfileId: doctorId, date }
     });
   },
-
 
   bookAppointment: (data) => {
 

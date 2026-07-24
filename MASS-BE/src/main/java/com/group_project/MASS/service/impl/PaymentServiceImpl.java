@@ -1,4 +1,8 @@
-package com.group_project.MASS.service;
+package com.group_project.MASS.service.impl;
+
+import com.group_project.MASS.service.EmailService;
+import com.group_project.MASS.service.NotificationService;
+import com.group_project.MASS.service.PaymentService;
 
 import com.group_project.MASS.dto.response.PaymentLinkResponse;
 import com.group_project.MASS.model.*;
@@ -71,10 +75,6 @@ public class PaymentServiceImpl implements PaymentService{
 
         long orderCode = generateOrderCode();
 
-        /*
-         * Thay bằng giá khám thực tế của hệ thống.
-         * Đổi giá trị sang BigDecimal vì entity dùng BigDecimal
-         */
         BigDecimal amount = BigDecimal.valueOf(10000);
 
         Payment payment;
@@ -107,7 +107,7 @@ public class PaymentServiceImpl implements PaymentService{
             CreatePaymentLinkRequest request =
                     CreatePaymentLinkRequest.builder()
                             .orderCode(orderCode)
-                            .amount(amount.longValue()) // PayOS SDK cần kiểu long/int
+                            .amount(amount.longValue())
                             .description(description)
                             .returnUrl(
                                     successUrl
@@ -159,9 +159,7 @@ public class PaymentServiceImpl implements PaymentService{
         final WebhookData webhookData;
 
         try {
-            /*
-             * Bắt buộc xác minh webhook trước khi cập nhật database.
-             */
+
             webhookData = payOS.webhooks()
                     .verify(webhookBody);
 
@@ -181,10 +179,6 @@ public class PaymentServiceImpl implements PaymentService{
                                 + orderCode
                 ));
 
-        /*
-         * Webhook có thể được PayOS gửi lại nhiều lần.
-         * Xử lý idempotent để không gửi notification/email trùng.
-         */
         if (payment.getPaymentStatus()
                 == PaymentStatus.COMPLETED) {
             return;
@@ -264,23 +258,23 @@ public class PaymentServiceImpl implements PaymentService{
                 if (payment.getTransactionId() == null) {
                     payment.setTransactionId(generateTransactionCode());
                 }
-                
+
                 Appointment appointment = payment.getAppointment();
                 if (appointment.getType() == AppointmentType.WALK_IN) {
                     appointment.setStatus(AppointmentStatus.WAITING_FOR_TURN);
                 } else {
                     appointment.setStatus(AppointmentStatus.WAITING_CHECK_IN);
                 }
-                
+
                 paymentRepository.save(payment);
                 appointmentRepository.save(appointment);
-                
+
                 notificationService.createPaymentSuccessNotification(appointment, payment);
                 emailService.sendPaymentSuccessEmail(appointment, payment);
                 return appointment.getStatus().name();
             }
         } catch (Exception e) {
-            // ignore
+
         }
         return "PENDING";
     }

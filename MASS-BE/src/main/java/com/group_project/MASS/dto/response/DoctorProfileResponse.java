@@ -18,7 +18,6 @@ public class DoctorProfileResponse {
     private String gender;
     private String avatarUrl;
 
-    // DoctorProfile fields
     private Long specialtyId;
     private String specialtyName;
     private String degree;

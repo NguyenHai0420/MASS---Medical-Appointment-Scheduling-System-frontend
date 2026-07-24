@@ -16,7 +16,6 @@ import java.time.LocalTime;
 public class AppointmentDetailResponse {
     private Long appointmentId;
 
-    // Appointment details
     private Long patientId;
     private String patientName;
     private String patientEmail;
@@ -25,7 +24,6 @@ public class AppointmentDetailResponse {
     private LocalDate patientDateOfBirth;
     private String patientAddress;
 
-    // Doctor details
     private Long doctorProfileId;
     private Long doctorUserId;
     private String doctorName;
@@ -34,7 +32,6 @@ public class AppointmentDetailResponse {
     private Long specialtyId;
     private String specialtyName;
 
-    // Schedule details
     private Long scheduleId;
     private LocalDate appointmentDate;
     private LocalTime startTime;
@@ -45,7 +42,6 @@ public class AppointmentDetailResponse {
     private AppointmentStatus appointmentStatus;
     private LocalDateTime createdAt;
 
-    // Payment details
     private Long paymentId;
     private BigDecimal paymentAmount;
     private PaymentMethod paymentMethod;

@@ -1,8 +1,7 @@
 import { useReducer } from 'react';
 
-// State ban đầu – khớp với params của API backend
 const initialState = {
-  date: '',          // LocalDate: 'YYYY-MM-DD'
+  date: '',
   specialtyId: 'ALL',
   status: 'ALL',
   page: 0,

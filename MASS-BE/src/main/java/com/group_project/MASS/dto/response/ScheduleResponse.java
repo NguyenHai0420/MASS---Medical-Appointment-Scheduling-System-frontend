@@ -17,5 +17,5 @@ public class ScheduleResponse {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
-    private boolean available;  // FE dùng "available" (isAvailable)
+    private boolean available;
 }

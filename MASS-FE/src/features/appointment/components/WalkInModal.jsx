@@ -20,18 +20,15 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [loadingSlots, setLoadingSlots] = useState(false);
 
-  // State danh sách bác sĩ
   const [doctors, setDoctors] = useState([]);
   const [loadingDoctors, setLoadingDoctors] = useState(false);
 
-  // State danh sách chuyên khoa
   const [specialties, setSpecialties] = useState([]);
   const [loadingSpecialties, setLoadingSpecialties] = useState(false);
 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
-  // Tải danh sách chuyên khoa khi component mount
   useEffect(() => {
     async function fetchSpecialties() {
       setLoadingSpecialties(true);
@@ -48,12 +45,11 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
     fetchSpecialties();
   }, []);
 
-  // Tải danh sách bác sĩ khi chọn chuyên khoa
   useEffect(() => {
     async function fetchDoctors() {
       if (!form.specialtyId) {
         setDoctors([]);
-        // Nếu chuyên khoa bị huỷ chọn, reset bác sĩ đã chọn
+
         setForm(prev => ({ ...prev, doctorProfileId: '' }));
         return;
       }
@@ -71,7 +67,6 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
     fetchDoctors();
   }, [form.specialtyId]);
 
-  // Tải slot trống khi chuyên khoa, ngày, hoặc bác sĩ thay đổi
   useEffect(() => {
     async function fetchSlots() {
       if (!form.specialtyId || !form.appointmentDate) {
@@ -193,7 +188,7 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
 
         <Form onSubmit={handleSubmit}>
           <Row className="g-3">
-            {/* Thông tin bệnh nhân mới */}
+            {}
             <Col md={12}>
               <h6 className="fw-bold mb-0 text-primary">Thông tin Bệnh nhân (Tạo mới / Tìm tự động qua email)</h6>
               <hr className="mt-2 mb-3" />
@@ -285,7 +280,7 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
               <hr className="mt-2 mb-3" />
             </Col>
 
-            {/* Chuyên khoa */}
+            {}
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="appt-modal-label">Chuyên khoa *</Form.Label>
@@ -304,7 +299,7 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
               </Form.Group>
             </Col>
 
-            {/* Bác sĩ (Dropdown theo chuyên khoa) */}
+            {}
             <Col md={6}>
               <Form.Group>
                 <Form.Label className="appt-modal-label">Bác sĩ (Tuỳ chọn)</Form.Label>
@@ -324,7 +319,7 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
               </Form.Group>
             </Col>
 
-            {/* Ngày khám */}
+            {}
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="appt-modal-label">Ngày khám *</Form.Label>
@@ -338,7 +333,7 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
               </Form.Group>
             </Col>
 
-            {/* Lý do khám */}
+            {}
             <Col md={12}>
               <Form.Group>
                 <Form.Label className="appt-modal-label">Lý do khám *</Form.Label>
@@ -353,7 +348,7 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
               </Form.Group>
             </Col>
 
-            {/* Available Slots */}
+            {}
             {(form.specialtyId && form.appointmentDate) && (
               <Col md={12}>
                 <Form.Label className="appt-modal-label">Slot trống trong ngày</Form.Label>
@@ -392,7 +387,7 @@ const WalkInModal = ({ show, onHide, onSuccess }) => {
             )}
           </Row>
 
-          {/* Buttons */}
+          {}
           <div className="d-flex justify-content-end gap-3 mt-4 pt-3" style={{ borderTop: '1px solid #f1f5f9' }}>
             <button
               type="button"

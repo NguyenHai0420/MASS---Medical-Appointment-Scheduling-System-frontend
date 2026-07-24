@@ -26,7 +26,7 @@ export default function DoctorDashboard() {
     const fetchData = async () => {
         try {
             const data = await doctorService.getMyAppointments();
-            // Lọc các cuộc hẹn trong ngày hôm nay (YYYY-MM-DD) và chưa COMPLETED
+
             const todayStr = new Date().toLocaleDateString('en-CA');
             const todayAppointments = data.filter(a =>
                 a.scheduleDate === todayStr && a.status !== "COMPLETED"
@@ -37,7 +37,6 @@ export default function DoctorDashboard() {
         }
     };
 
-    // Thống kê nhanh
     const total = appointments.length;
     const pending = appointments.filter((a) => a.status === "PENDING" || a.status === "CONFIRMED").length;
     const completed = appointments.filter((a) => a.status === "COMPLETED").length;
@@ -47,7 +46,7 @@ export default function DoctorDashboard() {
             <Container fluid>
                 <h4 className="mb-4">📋 Dashboard Bác sĩ — Hôm nay</h4>
 
-                {/* Thống kê nhanh */}
+                {}
                 <Row className="g-3 mb-4">
                     <Col md={4}>
                         <Card className="text-center border-primary">
@@ -75,7 +74,7 @@ export default function DoctorDashboard() {
                     </Col>
                 </Row>
 
-                {/* Danh sách hẹn hôm nay */}
+                {}
                 <h5>Danh sách hẹn hôm nay</h5>
                 <Table striped bordered hover responsive>
                     <thead>

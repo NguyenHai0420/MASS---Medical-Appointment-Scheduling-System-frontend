@@ -1,7 +1,6 @@
 import React from 'react';
 import { Calendar2, Clock, Person, HeartPulse } from 'react-bootstrap-icons';
 
-// Đồng bộ với backend enum AppointmentStatus
 const statusConfig = {
   PENDING_PAYMENT: {
     label: 'Chờ thanh toán',
@@ -35,7 +34,6 @@ const statusConfig = {
   },
 };
 
-// Đồng bộ với backend enum PaymentStatus
 const paymentConfig = {
   COMPLETED: { label: 'Đã thanh toán', className: 'appt-badge-paid' },
   PENDING: { label: 'Chờ thanh toán', className: 'appt-badge-unpaid' },
@@ -53,7 +51,6 @@ const AppointmentCard = ({ appointment, onViewDetail, onCheckIn, onPayment, onCa
 
   const isWalkIn = appointment.appointmentType === 'WALK_IN';
 
-  // Hiển thị nút hành động phù hợp theo trạng thái
   const renderActions = () => {
     const { appointmentStatus } = appointment;
 
@@ -89,7 +86,7 @@ const AppointmentCard = ({ appointment, onViewDetail, onCheckIn, onPayment, onCa
       className="appt-card"
       style={{ borderLeft: `5px solid ${status.borderColor}` }}
     >
-      {/* Header: ID + Tên bệnh nhân + Status badge */}
+      {}
       <div className="d-flex justify-content-between align-items-start gap-2 mb-2">
         <div>
           <div className="appt-card-id">#{appointment.appointmentId}</div>
@@ -99,7 +96,7 @@ const AppointmentCard = ({ appointment, onViewDetail, onCheckIn, onPayment, onCa
         <span className={`appt-badge ${status.className}`}>{status.label}</span>
       </div>
 
-      {/* Thông tin lịch hẹn */}
+      {}
       <div className="appt-card-meta">
         <span>
           <HeartPulse size={13} className="me-1 text-primary" />
@@ -120,7 +117,7 @@ const AppointmentCard = ({ appointment, onViewDetail, onCheckIn, onPayment, onCa
         </span>
       </div>
 
-      {/* Badges: thanh toán + loại lịch */}
+      {}
       <div className="d-flex flex-wrap gap-2 mb-2">
         <span className={`appt-badge ${payment.className}`}>{payment.label}</span>
         <span className={`appt-badge ${isWalkIn ? 'appt-badge-walkin' : 'appt-badge-online'}`}>
@@ -128,7 +125,7 @@ const AppointmentCard = ({ appointment, onViewDetail, onCheckIn, onPayment, onCa
         </span>
       </div>
 
-      {/* Nút hành động */}
+      {}
       {renderActions()}
     </div>
   );

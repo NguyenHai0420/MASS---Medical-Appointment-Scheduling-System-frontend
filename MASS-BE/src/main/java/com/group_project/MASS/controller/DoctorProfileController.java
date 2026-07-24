@@ -18,20 +18,17 @@ public class DoctorProfileController {
     @Autowired
     private DoctorProfileService doctorProfileService;
 
-    // GET /api/doctors — Ai cũng xem được
     @GetMapping
     public ResponseEntity<List<DoctorProfileResponse>> getAllDoctors() {
         return ResponseEntity.ok(doctorProfileService.getAllDoctors());
     }
 
-    // POST /api/doctors — Chỉ ADMIN
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<DoctorProfileResponse> createDoctor(@Valid @RequestBody DoctorRequest request) {
         return ResponseEntity.ok(doctorProfileService.createDoctor(request));
     }
 
-    // PUT /api/doctors/{id} — Chỉ ADMIN (id là DoctorProfile id)
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<DoctorProfileResponse> updateDoctor(
@@ -40,7 +37,6 @@ public class DoctorProfileController {
         return ResponseEntity.ok(doctorProfileService.updateDoctor(id, request));
     }
 
-    // DELETE /api/doctors/{id} — Chỉ ADMIN
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteDoctor(@PathVariable Long id) {

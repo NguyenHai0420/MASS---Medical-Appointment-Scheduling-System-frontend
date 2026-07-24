@@ -11,10 +11,9 @@ import com.group_project.MASS.model.Schedule;
 public final class AppointmentMapper {
 
     private AppointmentMapper() {
-        // Private constructor to prevent instantiation
+
     }
 
-    // Map Appointment and Payment to AppointmentListResponse
     public static AppointmentListResponse toListResponse(Appointment appointment,
                                                          Payment payment) {
 
@@ -43,7 +42,6 @@ public final class AppointmentMapper {
                 .build();
     }
 
-    // Map Appointment and Payment to AppointmentDetailResponse
     public static AppointmentDetailResponse toDetailResponse(Appointment appointment,
                                                              Payment payment) {
 
@@ -91,7 +89,6 @@ public final class AppointmentMapper {
         return builder.build();
     }
 
-    // Map Schedule to AvailableScheduleResponse
     public static AvailableScheduleResponse toScheduleResponse(Schedule schedule,
                                                                Integer queueNumber) {
         return AvailableScheduleResponse.builder()

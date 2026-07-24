@@ -5,17 +5,10 @@ import toast, { Toaster } from "react-hot-toast";
 import DashboardLayout from "../../../shared/components/DashboardLayout";
 import adminService from "../services/adminService";
 
-// ========================
-// UC-M06 — Manage Specialties
-// Admin quản lý chuyên khoa
-// ========================
-
-
-
 export default function ManageSpecialtiesPage() {
     const [specialties, setSpecialties] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [editItem, setEditItem] = useState(null); // null = đang thêm mới
+    const [editItem, setEditItem] = useState(null);
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
@@ -23,7 +16,6 @@ export default function ManageSpecialtiesPage() {
         fetchData();
     }, []);
 
-    // Lấy danh sách chuyên khoa
     const fetchData = async () => {
         try {
             const data = await adminService.getAllSpecialties();
@@ -33,36 +25,32 @@ export default function ManageSpecialtiesPage() {
         }
     };
 
-    // Mở modal thêm mới
     const handleShowAdd = () => {
         setEditItem(null);
         reset({ name: "", description: "", imageUrl: "" });
         setShowModal(true);
     };
 
-    // Mở modal chỉnh sửa
     const handleShowEdit = (item) => {
         setEditItem(item);
-        reset(item); // Điền sẵn dữ liệu vào form
+        reset(item);
         setShowModal(true);
     };
 
-    // Đóng modal
     const handleClose = () => {
         setShowModal(false);
         setEditItem(null);
         reset();
     };
 
-    // Submit form (thêm hoặc sửa)
     const onSubmit = async (data) => {
         try {
             if (editItem) {
-                // Đang sửa
+
                 await adminService.updateSpecialty(editItem.id, data);
                 toast.success("Cập nhật chuyên khoa thành công!");
             } else {
-                // Đang thêm mới
+
                 await adminService.createSpecialty(data);
                 toast.success("Thêm chuyên khoa thành công!");
             }
@@ -74,7 +62,6 @@ export default function ManageSpecialtiesPage() {
         }
     };
 
-    // Xoá chuyên khoa
     const handleDelete = async (id) => {
         if (!window.confirm("Bạn có chắc muốn xoá chuyên khoa này?")) return;
         try {
@@ -133,7 +120,7 @@ export default function ManageSpecialtiesPage() {
                     </tbody>
                 </Table>
 
-                {/* Modal Thêm / Sửa */}
+                {}
                 <Modal show={showModal} onHide={handleClose} backdrop="static">
                     <Modal.Header closeButton>
                         <Modal.Title>

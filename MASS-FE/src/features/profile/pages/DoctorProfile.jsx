@@ -31,12 +31,12 @@ const DoctorProfile = () => {
   return (
     <Container className="py-5">
       <Row>
-        {/* Left Column: Base Profile Form */}
+        {}
         <Col md={7}>
           <BaseProfileForm />
         </Col>
 
-        {/* Right Column: Doctor Specific Info (Specialty & Schedule) */}
+        {}
         <Col md={5}>
           <Card className="shadow-sm border-0 bg-light mb-4">
             <Card.Header className="bg-white border-0 pt-4 pb-0">

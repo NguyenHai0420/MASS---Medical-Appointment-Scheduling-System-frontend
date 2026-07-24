@@ -4,11 +4,6 @@ import toast, { Toaster } from "react-hot-toast";
 import DashboardLayout from "../../../shared/components/DashboardLayout";
 import adminService from "../services/adminService";
 
-// ========================
-// UC-M24, UC-M25, UC-M26 — Manage Statistics Pages
-// Admin xem thống kê chi tiết Bác sĩ, Bệnh nhân, Chuyên khoa
-// ========================
-
 export default function ManageStatisticsPage() {
     const [activeTab, setActiveTab] = useState("doctors");
     const [doctorStats, setDoctorStats] = useState([]);
@@ -59,7 +54,7 @@ export default function ManageStatisticsPage() {
                             onSelect={(k) => setActiveTab(k)}
                             className="mb-4"
                         >
-                            {/* Tab 1: Thống kê Bác sĩ (UC-M24) */}
+                            {}
                             <Tab eventKey="doctors" title="👨‍⚕️ Thống kê Bác sĩ">
                                 {loading ? (
                                     <div className="text-center py-5">Đang tải dữ liệu...</div>
@@ -106,7 +101,7 @@ export default function ManageStatisticsPage() {
                                 )}
                             </Tab>
 
-                            {/* Tab 2: Thống kê Bệnh nhân (UC-M25) */}
+                            {}
                             <Tab eventKey="patients" title="🧑‍🤝‍🧑 Thống kê Bệnh nhân">
                                 {loading ? (
                                     <div className="text-center py-5">Đang tải dữ liệu...</div>
@@ -180,7 +175,7 @@ export default function ManageStatisticsPage() {
                                 )}
                             </Tab>
 
-                            {/* Tab 3: Thống kê Chuyên khoa (UC-M26) */}
+                            {}
                             <Tab eventKey="specialties" title="🏥 Thống kê Chuyên khoa">
                                 {loading ? (
                                     <div className="text-center py-5">Đang tải dữ liệu...</div>

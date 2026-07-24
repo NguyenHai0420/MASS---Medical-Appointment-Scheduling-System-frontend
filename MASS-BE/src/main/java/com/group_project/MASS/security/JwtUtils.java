@@ -17,7 +17,7 @@ public class JwtUtils {
     private String jwtSecret;
 
     @Value("${jwt.expirationMs:86400000}")
-    private int jwtExpirationMs; // 1 day
+    private int jwtExpirationMs;
 
     private SecretKey key() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
@@ -27,7 +27,7 @@ public class JwtUtils {
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
         return generateTokenFromUsername(userPrincipal.getUsername());
     }
-    
+
     public String generateTokenFromUsername(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -47,7 +47,7 @@ public class JwtUtils {
             Jwts.parserBuilder().setSigningKey(key()).build().parse(authToken);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            // log error
+
         }
         return false;
     }

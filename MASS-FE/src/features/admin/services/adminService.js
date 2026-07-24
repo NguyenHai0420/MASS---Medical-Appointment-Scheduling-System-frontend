@@ -1,7 +1,7 @@
 import axiosClient from "../../../shared/services/axiosClient";
 
 const adminService = {
-  // ===== Statistics =====
+
   getDashboardStats: async () => {
     const res = await axiosClient.get("/api/statistics/dashboard");
     return res.data;
@@ -32,7 +32,6 @@ const adminService = {
     return res.data;
   },
 
-  // ===== Specialties =====
   getAllSpecialties: async () => {
     const res = await axiosClient.get("/api/specialties");
     return res.data;
@@ -50,7 +49,6 @@ const adminService = {
     return res.data;
   },
 
-  // ===== Doctors =====
   getAllDoctors: async () => {
     const res = await axiosClient.get("/api/admin/doctors");
     return res.data;
@@ -68,7 +66,6 @@ const adminService = {
     return res.data;
   },
 
-  // ===== Users =====
   getAllUsers: async () => {
     const res = await axiosClient.get("/api/admin/users");
     return res.data;

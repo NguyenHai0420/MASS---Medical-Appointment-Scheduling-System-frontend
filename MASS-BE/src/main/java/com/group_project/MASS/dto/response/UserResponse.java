@@ -17,6 +17,6 @@ public class UserResponse {
     private String gender;
     private String avatarUrl;
     private String address;
-    private String role;   // "ROLE_ADMIN", "ROLE_DOCTOR", "ROLE_PATIENT"
+    private String role;
     private Boolean active;
 }

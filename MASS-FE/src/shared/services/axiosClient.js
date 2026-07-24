@@ -11,7 +11,6 @@ const axiosClient = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor: tự động attach JWT token nếu có
 axiosClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -23,7 +22,6 @@ axiosClient.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// Response interceptor: xử lý lỗi chung
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {

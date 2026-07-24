@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { AuthContext } from "../../app/providers/AuthProvider";
 import ROLES from "../../constants/roles";
 
-// Sidebar dùng chung cho Doctor và Admin
 function Sidebar() {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -26,7 +25,7 @@ function Sidebar() {
                 flexDirection: "column",
             }}
         >
-            {/* Tên hệ thống */}
+            {}
             <h5 className="text-center text-white mb-1">MASS</h5>
             <p className="text-center text-secondary mb-4" style={{ fontSize: "12px" }}>
                 {user?.role}
@@ -34,7 +33,7 @@ function Sidebar() {
             <hr style={{ borderColor: "#555" }} />
 
             <Nav className="flex-column gap-1">
-                {/* Menu cho ADMIN */}
+                {}
                 {user?.role === ROLES.ADMIN && (
                     <>
                         <Nav.Link as={Link} to="/admin/dashboard" className="text-white">
@@ -58,7 +57,7 @@ function Sidebar() {
                     </>
                 )}
 
-                {/* Menu cho DOCTOR */}
+                {}
                 {user?.role === ROLES.DOCTOR && (
                     <>
                         <Nav.Link as={Link} to="/doctor/dashboard" className="text-white">
@@ -74,7 +73,7 @@ function Sidebar() {
                 )}
             </Nav>
 
-            {/* Nút đăng xuất ở dưới cùng */}
+            {}
             <div className="mt-auto">
                 <hr style={{ borderColor: "#555" }} />
                 <p className="text-center text-secondary" style={{ fontSize: "13px" }}>

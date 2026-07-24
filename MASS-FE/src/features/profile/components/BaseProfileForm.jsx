@@ -73,15 +73,14 @@ const BaseProfileForm = () => {
         avatarUrl: profile.avatarUrl
       };
 
-      // Handle empty date string causing backend parsing errors
       if (profile.dateOfBirth && profile.dateOfBirth.trim() !== "") {
         payload.dateOfBirth = profile.dateOfBirth;
       } else {
         payload.dateOfBirth = null;
       }
-      
+
       let finalProfile = { ...profile, ...payload };
-      
+
       try {
         const res = await profileService.updateProfile(payload);
         finalProfile = res.data;
@@ -91,7 +90,7 @@ const BaseProfileForm = () => {
         localStorage.setItem("mockProfile", JSON.stringify(finalProfile));
         setMessage({ type: "success", text: "Profile updated successfully!" });
       }
-      
+
       setProfile(finalProfile);
       setIsEditMode(false);
     } catch (error) {
@@ -127,11 +126,11 @@ const BaseProfileForm = () => {
         )}
 
         <div className="text-center mb-4">
-          <img 
-            src={profile.avatarUrl || "https://ui-avatars.com/api/?name=" + profile.fullName + "&background=random"} 
-            alt="Avatar" 
-            className="rounded-circle img-thumbnail shadow-sm mb-3" 
-            style={{ width: "120px", height: "120px", objectFit: "cover" }} 
+          <img
+            src={profile.avatarUrl || "https://ui-avatars.com/api/?name=" + profile.fullName + "&background=random"}
+            alt="Avatar"
+            className="rounded-circle img-thumbnail shadow-sm mb-3"
+            style={{ width: "120px", height: "120px", objectFit: "cover" }}
           />
           <h5 className="fw-bold">{profile.fullName}</h5>
           <p className="text-muted mb-0">{profile.role?.replace('ROLE_', '')}</p>

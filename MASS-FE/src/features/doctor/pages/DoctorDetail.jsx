@@ -24,7 +24,6 @@ const DoctorDetail = () => {
   const [slotsLoading, setSlotsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Booking State
   const [selectedSlot, setSelectedSlot] = useState(null);
 
   useEffect(() => {
@@ -148,10 +147,7 @@ const DoctorDetail = () => {
                       </Row>
                     )}
 
-                    {/* <div className="mt-4 text-muted small">
-                      <span className="me-3"><Badge bg="primary" className="me-1">&nbsp;</Badge> Có thể đặt</span>
-                      <span><Badge bg="secondary" className="me-1">&nbsp;</Badge> Đã kín chỗ</span>
-                    </div> */}
+                    {}
                   </div>
                 )}
               </Card.Body>

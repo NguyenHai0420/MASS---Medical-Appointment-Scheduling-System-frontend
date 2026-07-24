@@ -18,20 +18,17 @@ public class SpecialtyController {
     @Autowired
     private SpecialtyService specialtyService;
 
-    // GET /api/specialties — Ai cũng xem được (dùng cho patient chọn specialty)
     @GetMapping
     public ResponseEntity<List<SpecialtyResponse>> getAllSpecialties() {
         return ResponseEntity.ok(specialtyService.getAllSpecialties());
     }
 
-    // POST /api/specialties — Chỉ ADMIN
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<SpecialtyResponse> createSpecialty(@Valid @RequestBody SpecialtyRequest request) {
         return ResponseEntity.ok(specialtyService.createSpecialty(request));
     }
 
-    // PUT /api/specialties/{id} — Chỉ ADMIN
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<SpecialtyResponse> updateSpecialty(
@@ -40,7 +37,6 @@ public class SpecialtyController {
         return ResponseEntity.ok(specialtyService.updateSpecialty(id, request));
     }
 
-    // DELETE /api/specialties/{id} — Chỉ ADMIN
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> deleteSpecialty(@PathVariable Long id) {

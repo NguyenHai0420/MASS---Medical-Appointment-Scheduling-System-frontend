@@ -1,6 +1,5 @@
 package com.group_project.MASS.controller;
 
-
 import com.group_project.MASS.dto.request.CancelAppointmentRequest;
 import com.group_project.MASS.dto.request.CreateWalkInAppointmentRequest;
 import com.group_project.MASS.dto.request.UpdateAppointmentRequest;

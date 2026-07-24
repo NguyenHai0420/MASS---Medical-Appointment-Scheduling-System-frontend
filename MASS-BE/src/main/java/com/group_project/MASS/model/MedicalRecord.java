@@ -30,7 +30,7 @@ public class MedicalRecord {
 
     @Column(columnDefinition = "TEXT")
     private String prescription;
-    
+
     @Builder.Default
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();

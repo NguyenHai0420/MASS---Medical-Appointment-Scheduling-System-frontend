@@ -29,8 +29,6 @@ import AppointmentList from "../features/doctor/pages/AppointmentList";
 import MedicalRecord from "../features/doctor/pages/MedicalRecord";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-
-// Redirect về đúng dashboard theo role sau khi login
 function DashboardRedirect() {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -51,7 +49,7 @@ function App() {
           <Navbar />
           <main className="flex-grow-1">
             <Routes>
-              {/* Public routes */}
+              {}
               <Route path="/" element={<Home />} />
               <Route path="/doctors" element={<DoctorList />} />
               <Route path="/login" element={<Login />} />
@@ -60,13 +58,13 @@ function App() {
               <Route path="/verify-otp" element={<VerifyOtp />} />
               <Route path="/reset-password" element={<ResetPassword />} />
 
-              {/* Module Receptionist */}
+              {}
               <Route element={<PrivateRoute allowedRoles={["ROLE_RECEPTIONIST"]} />}>
                 <Route path="/appointments" element={<ReceptionistAppointmentList />} />
                 <Route path="/receptionist/dashboard" element={<DashboardRedirect />} />
               </Route>
 
-              {/* Module Patient */}
+              {}
               <Route element={<PrivateRoute allowedRoles={["ROLE_PATIENT"]} />}>
                 <Route path="/book-appointment" element={<BookAppointment />} />
                 <Route path="/bookAppointment" element={<BookAppointment />} />
@@ -74,13 +72,13 @@ function App() {
                 <Route path="/my-appointments" element={<MyAppointments />} />
               </Route>
 
-              {/* Protected routes common */}
+              {}
               <Route element={<PrivateRoute allowedRoles={["ROLE_PATIENT", "ROLE_DOCTOR", "ROLE_RECEPTIONIST", "ROLE_ADMIN"]} />}>
                 <Route path="/dashboard" element={<DashboardRedirect />} />
                 <Route path="/profile" element={<Profile />} />
               </Route>
 
-              {/* Admin routes */}
+              {}
               <Route element={<PrivateRoute allowedRoles={["ROLE_ADMIN"]} />}>
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
                 <Route path="/admin/doctors" element={<ManageDoctors />} />
@@ -90,7 +88,7 @@ function App() {
                 <Route path="/admin/statistics" element={<ManageStatistics />} />
               </Route>
 
-              {/* Doctor routes */}
+              {}
               <Route element={<PrivateRoute allowedRoles={["ROLE_DOCTOR"]} />}>
                 <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
                 <Route path="/doctor/schedule" element={<WorkSchedule />} />

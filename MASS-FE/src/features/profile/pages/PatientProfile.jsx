@@ -21,7 +21,7 @@ const PatientProfile = () => {
         setAppointments(response.data);
       } catch (err) {
         console.error("Failed to fetch appointments", err);
-        // Mock data if API fails
+
         setAppointments([
           { id: 1, doctorName: "Dr. Nguyen Van A", date: "2026-07-20", time: "08:00 - 08:30", status: "PENDING_PAYMENT" },
           { id: 2, doctorName: "Dr. Tran Thi B", date: "2026-07-21", time: "14:00 - 14:30", status: "PAID" },
@@ -36,12 +36,12 @@ const PatientProfile = () => {
   return (
     <Container className="py-5">
       <Row>
-        {/* Left Column: Base Profile Form */}
+        {}
         <Col md={7}>
           <BaseProfileForm />
         </Col>
 
-        {/* Right Column: Patient Specific Info (Appointments & Records) */}
+        {}
         <Col md={5}>
           <Card className="shadow-sm border-0 bg-light mb-4">
             <Card.Header className="bg-white border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">

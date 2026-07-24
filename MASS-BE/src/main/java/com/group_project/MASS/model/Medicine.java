@@ -23,7 +23,7 @@ public class Medicine {
     private String description;
 
     @Column
-    private String unit; // e.g., Viên, Vỉ, Lọ, Chai
+    private String unit;
 
     @Column
     private Double price;

@@ -1,7 +1,5 @@
 import Sidebar from "./Sidebar";
 
-// Layout chứa Sidebar bên trái + nội dung bên phải
-// Dùng chung cho tất cả trang Doctor và Admin
 function DashboardLayout({ children }) {
     return (
         <div style={{ display: "flex" }}>

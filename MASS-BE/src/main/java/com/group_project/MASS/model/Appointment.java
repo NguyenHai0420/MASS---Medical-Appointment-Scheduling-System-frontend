@@ -36,9 +36,9 @@ public class Appointment {
 
     @Column(columnDefinition = "TEXT")
     private String reason;
-    
+
     @Column
-    private Integer queueNumber; // Số thứ tự khám
+    private Integer queueNumber;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -51,5 +51,5 @@ public class Appointment {
 
     @Column
     private LocalDateTime checkedInAt;
-    
+
 }

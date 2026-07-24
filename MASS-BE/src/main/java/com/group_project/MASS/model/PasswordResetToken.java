@@ -19,7 +19,7 @@ public class PasswordResetToken {
     private Long id;
 
     @Column(nullable = false)
-    private String token; // OTP code
+    private String token;
 
     @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")

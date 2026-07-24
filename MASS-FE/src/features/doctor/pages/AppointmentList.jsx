@@ -41,7 +41,7 @@ export default function AppointmentList() {
     };
 
     const handleModalSuccess = () => {
-        fetchData(); // Reload list
+        fetchData();
     };
 
     return (
@@ -76,7 +76,7 @@ export default function AppointmentList() {
                                     </Badge>
                                 </td>
                                 <td>
-                                    {/* Chỉ cho nhập kết quả nếu cuộc hẹn đã WAITING_FOR_TURN (đã thanh toán) */}
+                                    {}
                                     {a.status === "WAITING_FOR_TURN" && (
                                         <Button
                                             variant="success"

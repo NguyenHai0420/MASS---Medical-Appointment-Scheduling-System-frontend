@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class DoctorRequest {
-    // Thông tin User
+
     @NotBlank(message = "Họ tên không được để trống")
     private String fullName;
 
@@ -18,7 +18,6 @@ public class DoctorRequest {
     private String phone;
     private String gender;
 
-    // Thông tin DoctorProfile
     @NotNull(message = "Chuyên khoa không được để trống")
     private Long specialtyId;
 

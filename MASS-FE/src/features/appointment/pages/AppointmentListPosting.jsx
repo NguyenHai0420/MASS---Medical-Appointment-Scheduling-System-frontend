@@ -17,7 +17,7 @@ const AppointmentListPosting = ({
 }) => {
   return (
     <Container className="py-5">
-      {/* Section header */}
+      {}
       <div className="appt-section-header">
         <div className="d-flex align-items-center gap-2">
           <h3 className="m-0 fw-bold" style={{ color: '#0f172a' }}>
@@ -31,7 +31,7 @@ const AppointmentListPosting = ({
         </button>
       </div>
 
-      {/* Loading state */}
+      {}
       {isLoading && (
         <div className="text-center py-5">
           <Spinner animation="border" style={{ color: '#1b6ca8', width: 48, height: 48 }} />
@@ -39,7 +39,7 @@ const AppointmentListPosting = ({
         </div>
       )}
 
-      {/* Empty state */}
+      {}
       {!isLoading && appointments.length === 0 && (
         <div className="appt-empty">
           <div className="appt-empty-icon">📅</div>
@@ -51,7 +51,7 @@ const AppointmentListPosting = ({
         </div>
       )}
 
-      {/* Appointment grid */}
+      {}
       {!isLoading && appointments.length > 0 && (
         <Row className="g-4">
           {appointments.map((appointment) => (
@@ -68,7 +68,7 @@ const AppointmentListPosting = ({
         </Row>
       )}
 
-      {/* Pagination */}
+      {}
       {!isLoading && totalPages > 1 && (
         <div className="appt-pagination">
           <button

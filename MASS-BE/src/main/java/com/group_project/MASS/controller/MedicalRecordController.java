@@ -17,20 +17,17 @@ public class MedicalRecordController {
     @Autowired
     private MedicalRecordService medicalRecordService;
 
-    // GET /api/medical-records/appointment/{appointmentId}
     @GetMapping("/appointment/{appointmentId}")
     public ResponseEntity<MedicalRecordResponse> getByAppointmentId(@PathVariable Long appointmentId) {
         return ResponseEntity.ok(medicalRecordService.getByAppointmentId(appointmentId));
     }
 
-    // POST /api/medical-records — Tạo hồ sơ y tế mới
     @PostMapping
     public ResponseEntity<MedicalRecordResponse> createMedicalRecord(
             @Valid @RequestBody MedicalRecordRequest request) {
         return ResponseEntity.ok(medicalRecordService.createMedicalRecord(request));
     }
 
-    // PUT /api/medical-records/{id} — Cập nhật hồ sơ y tế
     @PutMapping("/{id}")
     public ResponseEntity<MedicalRecordResponse> updateMedicalRecord(
             @PathVariable Long id,

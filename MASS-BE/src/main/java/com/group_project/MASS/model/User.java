@@ -89,7 +89,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        // Nếu isVerified null (tài khoản cũ) hoặc true thì cho phép login, đồng thời tài khoản phải active
+
         return (isVerified == null || isVerified) && getActive();
     }
 }

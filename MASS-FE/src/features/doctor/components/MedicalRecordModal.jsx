@@ -32,8 +32,8 @@ export default function MedicalRecordModal({ show, onHide, appointment, onSucces
 
     const fetchRecord = async () => {
         if (appointment.status === "WAITING_FOR_TURN") {
-            // New record
-            setIsEditing(true); // By default, editing mode is true for new records
+
+            setIsEditing(true);
             setRecordId(null);
             reset({ diagnosis: "", notes: "", prescription: "" });
             return;
@@ -48,10 +48,10 @@ export default function MedicalRecordModal({ show, onHide, appointment, onSucces
                     notes: record.notes || "",
                     prescription: record.prescription || "",
                 });
-                setIsEditing(true); // Luôn cho phép sửa ngay khi mở
+                setIsEditing(true);
             }
         } catch (err) {
-            // Record might not exist yet even if not WAITING_FOR_TURN (edge case)
+
             setRecordId(null);
             reset({ diagnosis: "", notes: "", prescription: "" });
             setIsEditing(true);
@@ -72,7 +72,7 @@ export default function MedicalRecordModal({ show, onHide, appointment, onSucces
             }
 
             toast.success("Lưu kết quả khám thành công!");
-            onSuccess(); // Refresh the list or close modal
+            onSuccess();
             onHide();
         } catch (error) {
             toast.error(error.response?.data || "Lưu kết quả thất bại!");
@@ -87,7 +87,7 @@ export default function MedicalRecordModal({ show, onHide, appointment, onSucces
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {/* Thông tin cuộc hẹn */}
+                {}
                 {appointment && (
                     <Card className="mb-4 border-info">
                         <Card.Header className="bg-info text-white">
@@ -109,7 +109,7 @@ export default function MedicalRecordModal({ show, onHide, appointment, onSucces
                     </Card>
                 )}
 
-                {/* Form nhập kết quả */}
+                {}
                 <form id="medical-record-form" onSubmit={handleSubmit(onSubmit)}>
                     <Form.Group className="mb-3">
                         <Form.Label>Chẩn đoán</Form.Label>

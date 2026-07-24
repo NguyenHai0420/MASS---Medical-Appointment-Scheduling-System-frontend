@@ -3,7 +3,6 @@ import { Container, Row, Col, Card, Spinner } from "react-bootstrap";
 import DashboardLayout from "../../../shared/components/DashboardLayout";
 import adminService from "../services/adminService";
 
-
 const StatCard = ({ icon, label, value, color }) => (
   <Card className="border-0 shadow-sm h-100">
     <Card.Body className="d-flex align-items-center gap-3 p-4">
@@ -48,7 +47,7 @@ export default function AdminDashboardPage() {
   return (
     <DashboardLayout>
       <Container fluid className="py-2">
-        {/* Header */}
+        {}
         <div className="mb-4">
           <h4 className="fw-bold mb-1">📊 Dashboard Tổng quan</h4>
           <p className="text-muted mb-0" style={{ fontSize: 14 }}>
@@ -60,7 +59,7 @@ export default function AdminDashboardPage() {
           <div className="alert alert-danger">{error}</div>
         )}
 
-        {/* Stat Cards */}
+        {}
         <Row className="g-3 mb-4">
           <Col xs={12} sm={6} xl={3}>
             <StatCard
@@ -96,7 +95,7 @@ export default function AdminDashboardPage() {
           </Col>
         </Row>
 
-        {/* Secondary stats */}
+        {}
         <Row className="g-3">
           <Col xs={12} sm={6}>
             <Card className="border-0 shadow-sm">
@@ -167,7 +166,7 @@ export default function AdminDashboardPage() {
           </Col>
         </Row>
 
-        {/* Quick links */}
+        {}
         <Row className="g-3 mt-1">
           <Col xs={12}>
             <Card className="border-0 shadow-sm">

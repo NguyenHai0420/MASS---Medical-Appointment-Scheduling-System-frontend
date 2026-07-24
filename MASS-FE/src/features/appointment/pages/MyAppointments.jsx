@@ -25,7 +25,7 @@ const MyAppointments = () => {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [selectedAppt, setSelectedAppt] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  
+
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [paymentAppt, setPaymentAppt] = useState(null);
 
@@ -66,7 +66,6 @@ const MyAppointments = () => {
       setShowCancelModal(false);
     }
   };
-
 
   const handleReschedule = (appt) => {
     console.log("Dời lịch clicked for appt:", appt);
@@ -168,7 +167,7 @@ const MyAppointments = () => {
         </Modal.Footer>
       </Modal>
 
-      <PaymentModal 
+      <PaymentModal
         show={showPaymentModal}
         onHide={() => setShowPaymentModal(false)}
         appointment={paymentAppt}

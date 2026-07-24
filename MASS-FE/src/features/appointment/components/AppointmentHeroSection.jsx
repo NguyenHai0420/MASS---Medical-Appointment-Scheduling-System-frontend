@@ -18,7 +18,7 @@ const AppointmentHeroSection = ({
             Danh sách lịch hẹn bệnh nhân – tìm kiếm, lọc trạng thái và theo dõi thanh toán.
           </p>
 
-          {/* Search bar */}
+          {}
           <div className="appt-search-box mx-auto mb-4">
             <input
               type="text"
@@ -30,9 +30,9 @@ const AppointmentHeroSection = ({
             <button className="appt-search-btn">Tìm kiếm</button>
           </div>
 
-          {/* Filter row – 4 controls ngang hàng */}
+          {}
           <Row className="justify-content-center g-2 mx-auto" style={{ maxWidth: 900 }}>
-            {/* Lọc ngày */}
+            {}
             <Col xs={12} sm={6} md={3}>
               <input
                 type="date"
@@ -43,7 +43,7 @@ const AppointmentHeroSection = ({
               />
             </Col>
 
-            {/* Lọc chuyên khoa */}
+            {}
             <Col xs={12} sm={6} md={3}>
               <select
                 className="appt-filter-select w-100"
@@ -59,7 +59,7 @@ const AppointmentHeroSection = ({
               </select>
             </Col>
 
-            {/* Lọc trạng thái */}
+            {}
             <Col xs={12} sm={6} md={3}>
               <select
                 className="appt-filter-select w-100"
@@ -74,7 +74,7 @@ const AppointmentHeroSection = ({
               </select>
             </Col>
 
-            {/* Nút reset */}
+            {}
             <Col xs={12} sm={6} md="auto">
               <button
                 className="appt-filter-select fw-semibold"

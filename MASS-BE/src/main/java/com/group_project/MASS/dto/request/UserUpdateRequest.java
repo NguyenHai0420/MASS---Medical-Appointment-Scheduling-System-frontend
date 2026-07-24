@@ -8,6 +8,6 @@ public class UserUpdateRequest {
     private String phone;
     private String gender;
     private String address;
-    private String role;   // admin có thể đổi role
+    private String role;
     private Boolean active;
 }

@@ -20,14 +20,12 @@ public class DoctorScheduleController {
     @Autowired
     private ScheduleService scheduleService;
 
-    // GET /api/doctor/schedules — Lấy schedules của bản thân
     @GetMapping
     public ResponseEntity<List<ScheduleResponse>> getMySchedules(Authentication authentication) {
-        String email = authentication.getName();  // lấy email từ JWT
+        String email = authentication.getName();
         return ResponseEntity.ok(scheduleService.getMySchedules(email));
     }
 
-    // POST /api/doctor/schedules — Tạo schedule mới
     @PostMapping
     public ResponseEntity<ScheduleResponse> createSchedule(
             @Valid @RequestBody ScheduleRequest request,
@@ -36,7 +34,6 @@ public class DoctorScheduleController {
         return ResponseEntity.ok(scheduleService.createSchedule(email, request));
     }
 
-    // DELETE /api/doctor/schedules/{id} — Xóa schedule
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteSchedule(
             @PathVariable Long id,

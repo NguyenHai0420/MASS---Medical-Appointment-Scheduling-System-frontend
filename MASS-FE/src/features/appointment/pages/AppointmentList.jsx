@@ -9,19 +9,16 @@ import useAppointmentFilter from '../hooks/useAppointmentFilter';
 import '@/styles/appointment.css';
 
 const AppointmentListPage = () => {
-  // Filter state – dùng useReducer theo pattern giáo viên
+
   const { filters, dispatch } = useAppointmentFilter();
 
-  // Keyword search – debounced riêng (không cần Redux)
   const [keyword, setKeyword] = useState('');
 
-  // Data state
   const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [totalElements, setTotalElements] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  // Modal state
   const [showWalkIn, setShowWalkIn] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
@@ -29,14 +26,12 @@ const AppointmentListPage = () => {
 
   const [specialties, setSpecialties] = useState([]);
 
-  // Fetch specialties
   useEffect(() => {
     appointmentService.getAllSpecialties()
       .then(res => setSpecialties(res.data || []))
       .catch(console.error);
   }, []);
 
-  // Fetch appointments từ API
   const fetchAppointments = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -45,7 +40,6 @@ const AppointmentListPage = () => {
         size: filters.size,
       };
 
-      // Chỉ truyền param nếu khác ALL / rỗng
       if (filters.date) params.date = filters.date;
       if (filters.specialtyId !== 'ALL') params.specialtyId = filters.specialtyId;
       if (filters.status !== 'ALL') params.status = filters.status;
@@ -64,12 +58,10 @@ const AppointmentListPage = () => {
     }
   }, [filters]);
 
-  // Gọi API khi filter thay đổi
   useEffect(() => {
     fetchAppointments();
   }, [fetchAppointments]);
 
-  // Client-side filter theo keyword (tìm theo tên/SĐT/email)
   const visibleAppointments = keyword.trim()
     ? appointments.filter((a) => {
       const q = keyword.trim().toLowerCase();
@@ -82,8 +74,6 @@ const AppointmentListPage = () => {
       );
     })
     : appointments;
-
-  // --- Modal handlers ---
 
   const handleViewDetail = (appointment) => {
     setSelectedAppointment(appointment);
@@ -98,7 +88,7 @@ const AppointmentListPage = () => {
   const handleCheckIn = async (appointment) => {
     try {
       await appointmentService.checkIn(appointment.appointmentId);
-      fetchAppointments(); // Reload list
+      fetchAppointments();
     } catch (err) {
       console.error('Check-in thất bại:', err);
     }
@@ -106,12 +96,12 @@ const AppointmentListPage = () => {
 
   const handleCancel = (appointment) => {
     setSelectedAppointment(appointment);
-    setShowDetail(true); // Mở detail modal để nhập lý do hủy
+    setShowDetail(true);
   };
 
   const handleWalkInSuccess = (newAppointment) => {
     console.log('Walk-in tạo thành công:', newAppointment);
-    fetchAppointments(); // Reload list
+    fetchAppointments();
     setShowWalkIn(false);
     setSelectedAppointment(newAppointment);
     setShowPayment(true);
@@ -123,7 +113,7 @@ const AppointmentListPage = () => {
 
   return (
     <main className="appt-page">
-      {/* Hero section với search + filter */}
+      {}
       <AppointmentHeroSection
         keyword={keyword}
         setKeyword={setKeyword}
@@ -132,7 +122,7 @@ const AppointmentListPage = () => {
         specialties={specialties}
       />
 
-      {/* Danh sách lịch hẹn */}
+      {}
       <AppointmentListPosting
         appointments={visibleAppointments}
         isLoading={isLoading}
@@ -147,14 +137,14 @@ const AppointmentListPage = () => {
         onCancel={handleCancel}
       />
 
-      {/* Walk-in Modal */}
+      {}
       <WalkInModal
         show={showWalkIn}
         onHide={() => setShowWalkIn(false)}
         onSuccess={handleWalkInSuccess}
       />
 
-      {/* Payment Modal */}
+      {}
       <PaymentModal
         show={showPayment}
         onHide={() => { setShowPayment(false); setSelectedAppointment(null); }}
@@ -162,7 +152,7 @@ const AppointmentListPage = () => {
         onPaymentSuccess={fetchAppointments}
       />
 
-      {/* Detail Modal */}
+      {}
       <AppointmentDetailModal
         show={showDetail}
         onHide={() => { setShowDetail(false); setSelectedAppointment(null); }}

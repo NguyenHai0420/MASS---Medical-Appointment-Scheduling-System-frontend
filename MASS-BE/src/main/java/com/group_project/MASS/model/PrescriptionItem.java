@@ -28,5 +28,5 @@ public class PrescriptionItem {
     private Integer quantity;
 
     @Column(nullable = false)
-    private String dosage; // e.g., "Sáng 1 viên, Tối 1 viên sau ăn"
+    private String dosage;
 }

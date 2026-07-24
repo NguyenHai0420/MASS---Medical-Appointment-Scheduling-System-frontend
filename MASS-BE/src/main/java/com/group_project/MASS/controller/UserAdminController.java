@@ -18,13 +18,11 @@ public class UserAdminController {
     @Autowired
     private UserAdminService userAdminService;
 
-    // GET /api/admin/users — Lấy tất cả users
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         return ResponseEntity.ok(userAdminService.getAllUsers());
     }
 
-    // PUT /api/admin/users/{id} — Cập nhật user
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(
             @PathVariable Long id,
@@ -32,7 +30,6 @@ public class UserAdminController {
         return ResponseEntity.ok(userAdminService.updateUser(id, request));
     }
 
-    // DELETE /api/admin/users/{id} — Xóa user
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userAdminService.deleteUser(id);

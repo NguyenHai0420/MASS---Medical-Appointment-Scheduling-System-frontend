@@ -6,7 +6,7 @@ const PrivateRoute = ({ allowedRoles }) => {
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    return <div>Loading...</div>; // Could be a spinner
+    return <div>Loading...</div>;
   }
 
   if (!user) {
@@ -14,7 +14,7 @@ const PrivateRoute = ({ allowedRoles }) => {
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/unauthorized" replace />; // or somewhere else
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return <Outlet />;

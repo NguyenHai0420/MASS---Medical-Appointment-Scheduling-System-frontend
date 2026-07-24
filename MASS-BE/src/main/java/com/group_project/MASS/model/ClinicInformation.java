@@ -24,7 +24,7 @@ public class ClinicInformation {
 
     @Column
     private String phone;
-    
+
     @Column
     private String email;
 

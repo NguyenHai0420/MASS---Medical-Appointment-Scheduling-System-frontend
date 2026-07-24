@@ -1,4 +1,6 @@
-package com.group_project.MASS.service;
+package com.group_project.MASS.service.impl;
+
+import com.group_project.MASS.service.NotificationService;
 
 import com.group_project.MASS.model.Appointment;
 import com.group_project.MASS.model.Notification;

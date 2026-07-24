@@ -9,10 +9,9 @@ const Profile = () => {
   const { user } = useContext(AuthContext);
 
   if (!user) {
-    return null; // or a loading spinner
+    return null;
   }
 
-  // Load different components based on role
   if (user.role === "ROLE_PATIENT") {
     return <PatientProfile />;
   }
@@ -21,7 +20,6 @@ const Profile = () => {
     return <DoctorProfile />;
   }
 
-  // Fallback for Receptionist or Admin if they ever visit this page
   return (
     <Container className="py-5">
       <Row className="justify-content-center">

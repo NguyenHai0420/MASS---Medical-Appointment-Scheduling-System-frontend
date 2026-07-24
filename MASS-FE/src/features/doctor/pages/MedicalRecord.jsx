@@ -6,13 +6,8 @@ import toast, { Toaster } from "react-hot-toast";
 import DashboardLayout from "../../../shared/components/DashboardLayout";
 import doctorService from "../services/doctorService";
 
-// ========================
-// UC-M15 — Record Medical Result
-// Doctor nhập kết quả khám bệnh
-// ========================
-
 export default function MedicalRecordPage() {
-    const { appointmentId } = useParams(); // Lấy ID từ URL: /doctor/medical-record/:appointmentId
+    const { appointmentId } = useParams();
     const navigate = useNavigate();
     const [appointment, setAppointment] = useState(null);
     const [recordId, setRecordId] = useState(null);
@@ -50,7 +45,7 @@ export default function MedicalRecordPage() {
                     });
                 }
             } catch (err) {
-                // Record chưa tồn tại, để trống form
+
                 setRecordId(null);
                 reset({ diagnosis: "", notes: "", prescription: "" });
             }
@@ -74,7 +69,6 @@ export default function MedicalRecordPage() {
 
             toast.success("Lưu kết quả khám thành công!");
 
-            // Quay lại trang danh sách sau 700ms
             setTimeout(() => {
                 navigate("/doctor/appointments");
             }, 700);
@@ -89,7 +83,7 @@ export default function MedicalRecordPage() {
                 <Toaster />
                 <h4 className="mb-3">🩺 Nhập kết quả khám bệnh</h4>
 
-                {/* Thông tin cuộc hẹn */}
+                {}
                 {appointment && (
                     <Card className="mb-4 border-info">
                         <Card.Header className="bg-info text-white">
@@ -111,7 +105,7 @@ export default function MedicalRecordPage() {
                     </Card>
                 )}
 
-                {/* Form nhập kết quả */}
+                {}
                 <Card>
                     <Card.Body>
                         <form onSubmit={handleSubmit(onSubmit)}>

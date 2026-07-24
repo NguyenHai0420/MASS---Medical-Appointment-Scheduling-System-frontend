@@ -5,13 +5,6 @@ import toast, { Toaster } from "react-hot-toast";
 import DashboardLayout from "../../../shared/components/DashboardLayout";
 import adminService from "../services/adminService";
 
-// ========================
-// UC-M07 — Manage Doctor Profiles
-// Admin quản lý hồ sơ bác sĩ
-// ========================
-
-
-
 export default function ManageDoctorsPage() {
     const [doctors, setDoctors] = useState([]);
     const [specialties, setSpecialties] = useState([]);
@@ -182,7 +175,7 @@ export default function ManageDoctorsPage() {
                     </tbody>
                 </Table>
 
-                {/* Modal Thêm / Sửa */}
+                {}
                 <Modal show={showModal} onHide={handleClose} backdrop="static">
                     <Modal.Header closeButton>
                         <Modal.Title>

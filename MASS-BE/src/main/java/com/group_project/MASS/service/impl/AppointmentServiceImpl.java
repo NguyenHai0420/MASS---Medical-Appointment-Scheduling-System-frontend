@@ -71,8 +71,6 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .collect(Collectors.toList());
     }
 
-
-    // Appointment List
     @Override
     @Transactional(readOnly = true)
     public PageResponse<AppointmentListResponse> getAppointments(LocalDate date,
@@ -176,7 +174,6 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .build();
     }
 
-    // Appointment Detail
     @Override
     @Transactional(readOnly = true)
     public AppointmentDetailResponse getAppointmentDetail(Long appointmentId) {
@@ -198,7 +195,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         );
     }
 
-    // Tạo lịch hẹn khám tại phòng khám
     @Override
     public AppointmentDetailResponse createWalkInAppointment(
             CreateWalkInAppointmentRequest request
@@ -211,14 +207,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         validateWalkInRequest(request);
 
-        // Lấy hoặc tạo mới bệnh nhân dựa trên email
         User patient = userRepository.findByEmail(request.getPatientEmail())
                 .orElseGet(() -> {
                     User newUser = User.builder()
                             .email(request.getPatientEmail())
                             .fullName(request.getPatientName())
                             .phone(request.getPatientPhone())
-                            .password(passwordEncoder.encode(request.getPatientPhone())) // Mật khẩu mặc định là SĐT
+                            .password(passwordEncoder.encode(request.getPatientPhone()))
                             .dateOfBirth(request.getDateOfBirth())
                             .address(request.getAddress())
                             .gender(request.getPatientGender())
@@ -247,7 +242,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Schedule selectedSchedule;
 
-        // Trường hợp lễ tân đã chọn cụ thể bác sĩ.
         if (request.getDoctorProfileId() != null) {
             DoctorProfile doctorProfile = doctorProfileRepository
                             .findById(request.getDoctorProfileId())
@@ -270,10 +264,6 @@ public class AppointmentServiceImpl implements AppointmentService {
                     searchFromTime
             );
 
-            /*
-             * Không chọn bác sĩ: hệ thống tự tìm slot gần nhất
-             * của các bác sĩ thuộc chuyên khoa.
-             */
         } else {
             selectedSchedule = findNearestAvailableScheduleBySpecialty(
                     specialty.getId(),
@@ -282,10 +272,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             );
         }
 
-        /*
-         * Kiểm tra lại trước khi lưu để tránh sử dụng schedule
-         * đã có appointment nhưng trạng thái available chưa đồng bộ.
-         */
         boolean occupied = appointmentRepository
                 .existsByScheduleIdAndStatusNot(
                         selectedSchedule.getId(),
@@ -307,31 +293,25 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .patient(patient)
                 .doctorProfile(selectedSchedule.getDoctorProfile())
                 .schedule(selectedSchedule)
-                // Walk-in vừa được tạo, mặc định chờ xử lý hoặc thanh toán.
+
                 .status(AppointmentStatus.PENDING_PAYMENT)
                 .reason(request.getReason().trim())
                 .queueNumber(queueNumber)
                 .type(AppointmentType.WALK_IN)
                 .build();
 
-        // Đánh dấu schedule không còn trống.
         selectedSchedule.setAvailable(false);
         scheduleRepository.save(selectedSchedule);
 
         Appointment savedAppointment =
                 appointmentRepository.save(appointment);
 
-        /*
-         * Walk-in mới chưa có payment nên truyền null.
-         * Payment sẽ được tạo trong module PayOS sau.
-         */
         return AppointmentMapper.toDetailResponse(
                 savedAppointment,
                 null
         );
     }
 
-    // Cập nhật lịch hẹn khám
     @Override
     public AppointmentDetailResponse updateAppointment(
             Long appointmentId,
@@ -392,7 +372,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         );
     }
 
-    // Cập nhật trạng thái lịch hẹn khám
     @Override
     public ApiMessageResponse updateAppointmentStatus(
             Long appointmentId,
@@ -446,10 +425,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointment.setStatus(newStatus);
 
-        /*
-         * COMPLETED và NO_SHOW kết thúc lượt khám.
-         * Slot không nên được mở lại vì thời gian đó đã được sử dụng.
-         */
         appointmentRepository.save(appointment);
 
         return new ApiMessageResponse(
@@ -458,7 +433,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         );
     }
 
-    // check-in
     @Override
     public AppointmentDetailResponse checkInAppointment(
             Long appointmentId
@@ -493,10 +467,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             );
         }
 
-        /*
-         * Có thể cho phép check-in trước giờ khám.
-         * Ví dụ: tối đa 60 phút.
-         */
         LocalTime earliestCheckIn =
                 schedule.getStartTime().minusMinutes(60);
 
@@ -537,7 +507,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         );
     }
 
-    // Hủy lịch hẹn khám
     @Override
     public ApiMessageResponse cancelAppointment(
             Long appointmentId,
@@ -583,9 +552,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Schedule schedule = appointment.getSchedule();
 
-        /*
-         * Chỉ mở lại slot nếu thời gian khám chưa xảy ra.
-         */
         if (isScheduleInFuture(schedule)) {
             schedule.setAvailable(true);
             scheduleRepository.save(schedule);
@@ -597,11 +563,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointmentRepository.save(appointment);
 
-        /*
-         * Entity hiện tại chưa có cancellationReason,
-         * nên lý do hủy chưa được lưu vào bảng appointments.
-         * Phần Notification sau sẽ đưa lý do vào nội dung thông báo.
-         */
         return new ApiMessageResponse(
                 "Hủy lịch khám thành công. Lý do: "
                         + request.getCancelReason().trim()
@@ -643,7 +604,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<LocalTime> allDailySlots = generateDailySlots();
 
         List<AvailableScheduleResponse> responses = new ArrayList<>();
-        long fakeIdCounter = -1L; // Fake ID for UI since schedules are dynamic
+        long fakeIdCounter = -1L;
 
         List<DoctorProfile> availableDoctors;
         if (doctorProfileId != null) {
@@ -655,7 +616,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         for (LocalTime slotTime : allDailySlots) {
             if (slotTime.isBefore(selectedFromTime)) continue;
 
-            // Tìm bác sĩ rảnh trong khung giờ này
             List<DoctorProfile> freeDoctors = new ArrayList<>();
             for (DoctorProfile doc : availableDoctors) {
                 boolean isBooked = appointmentRepository.existsByDoctorProfileIdAndScheduleDateAndScheduleStartTimeAndStatusNot(
@@ -696,10 +656,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         return slots;
     }
 
-    /*
-     * HELPER
-     */
-
     private AppointmentListResponse mapToListResponse(Appointment appointment) {
         Payment payment = paymentRepository
                 .findByAppointmentId(appointment.getId())
@@ -711,9 +667,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         );
     }
 
-    /*
-     * Kiểm tra yêu cầu tạo mới
-     */
     private void validateWalkInRequest(
             CreateWalkInAppointmentRequest request
     ) {
@@ -750,9 +703,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
-    /*
-     * Tìm thời gian gần nhất theo bác sĩ
-     */
     private Schedule findNearestAvailableScheduleByDoctor(
             Long doctorProfileId,
             LocalDate date,
@@ -760,25 +710,22 @@ public class AppointmentServiceImpl implements AppointmentService {
     ) {
         DoctorProfile doc = doctorProfileRepository.findById(doctorProfileId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bác sĩ"));
-        
+
         List<LocalTime> allSlots = generateDailySlots();
         for (LocalTime slotTime : allSlots) {
             if (slotTime.isBefore(fromTime)) continue;
-            
+
             boolean isBooked = appointmentRepository.existsByDoctorProfileIdAndScheduleDateAndScheduleStartTimeAndStatusNot(
                     doc.getId(), date, slotTime, AppointmentStatus.CANCELLED);
-            
+
             if (!isBooked) {
                 return getOrCreateSchedule(doc, date, slotTime);
             }
         }
-        
+
         throw new IllegalStateException("Bác sĩ không còn slot trống phù hợp trong ngày " + date);
     }
 
-    /*
-     * Tìm slot gần nhất theo chuyên khoa
-     */
     private Schedule findNearestAvailableScheduleBySpecialty(
             Long specialtyId,
             LocalDate date,
@@ -788,21 +735,21 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (availableDoctors.isEmpty()) {
              throw new IllegalStateException("Không có bác sĩ nào thuộc chuyên khoa này");
         }
-        
+
         List<LocalTime> allSlots = generateDailySlots();
         for (LocalTime slotTime : allSlots) {
             if (slotTime.isBefore(fromTime)) continue;
-            
+
             for (DoctorProfile doc : availableDoctors) {
                 boolean isBooked = appointmentRepository.existsByDoctorProfileIdAndScheduleDateAndScheduleStartTimeAndStatusNot(
                         doc.getId(), date, slotTime, AppointmentStatus.CANCELLED);
-                
+
                 if (!isBooked) {
                     return getOrCreateSchedule(doc, date, slotTime);
                 }
             }
         }
-        
+
         throw new IllegalStateException("Không còn slot trống của chuyên khoa trong ngày " + date);
     }
 
@@ -817,20 +764,12 @@ public class AppointmentServiceImpl implements AppointmentService {
                         .build()));
     }
 
-    /*
-     * Xác định thời gian bắt đầu tìm slot
-     */
     private LocalTime determineSearchFromTime(
             LocalDate appointmentDate,
             LocalTime requestedTime
     ) {
         LocalTime clinicOpeningTime = LocalTime.of(7, 0);
 
-        /*
-         * Ngày tương lai:
-         * - Nếu không truyền giờ thì tìm từ 07:00.
-         * - Nếu có truyền giờ thì tìm từ giờ được yêu cầu.
-         */
         if (appointmentDate.isAfter(LocalDate.now())) {
             if (requestedTime == null) {
                 return clinicOpeningTime;
@@ -841,7 +780,6 @@ public class AppointmentServiceImpl implements AppointmentService {
                     : requestedTime;
         }
 
-        // Ngày hôm nay: không được tìm slot trong quá khứ.
         LocalTime currentTime = LocalTime.now();
 
         LocalTime result = requestedTime != null
@@ -859,9 +797,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         return result;
     }
 
-    /*
-     * Tính số thứ tự cố định theo giờ
-     */
     private int calculateQueueNumber(
             LocalTime slotStartTime
     ) {
@@ -885,12 +820,6 @@ public class AppointmentServiceImpl implements AppointmentService {
                 slotStartTime
         ).toMinutes();
 
-        /*
-         * Bảo đảm giờ bắt đầu đúng theo slot 30 phút.
-         *
-         * Ví dụ hợp lệ:
-         * 07:00, 07:30, 08:00, 08:30...
-         */
         if (minutesFromOpening % slotDurationMinutes != 0) {
             throw new IllegalArgumentException(
                     "Thời gian bắt đầu của schedule phải theo slot 30 phút"
@@ -900,9 +829,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         return (int) (minutesFromOpening / slotDurationMinutes) + 1;
     }
 
-    /*
-     * Helper thay đổi lịch hẹn khám
-     */
     private void changeAppointmentSchedule(
             Appointment appointment,
             Long newScheduleId
@@ -921,19 +847,13 @@ public class AppointmentServiceImpl implements AppointmentService {
                 newSchedule
         );
 
-        // Giải phóng slot cũ.
         oldSchedule.setAvailable(true);
 
-        // Khóa slot mới.
         newSchedule.setAvailable(false);
 
         scheduleRepository.save(oldSchedule);
         scheduleRepository.save(newSchedule);
 
-        /*
-         * Schedule chứa bác sĩ nên khi đổi schedule
-         * cần cập nhật luôn doctorProfile.
-         */
         appointment.setSchedule(newSchedule);
         appointment.setDoctorProfile(
                 newSchedule.getDoctorProfile()
@@ -946,9 +866,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         );
     }
 
-    /*
-     * Helper kiểm tra lịch hẹn khám mới
-     */
     private void validateNewSchedule(
             Appointment appointment,
             Schedule newSchedule
@@ -985,12 +902,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             );
         }
 
-        /*
-         * Không cho đổi sang chuyên khoa khác.
-         *
-         * Nếu khách muốn khám chuyên khoa khác,
-         * nên hủy lịch cũ và tạo lịch mới.
-         */
         Long oldSpecialtyId = appointment
                 .getDoctorProfile()
                 .getSpecialty()
@@ -1009,9 +920,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
-    /*
-     * Helper kiểm tra lịch hẹn khám có thể sửa
-     */
     private void validateAppointmentCanBeModified(
             Appointment appointment
     ) {
@@ -1037,9 +945,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
-    /*
-     * Helper kiểm tra cập nhật trạng thái lịch khám
-     */
     private void validateStatusTransition(
             AppointmentStatus currentStatus,
             AppointmentStatus newStatus
@@ -1050,7 +955,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         boolean validTransition = switch (currentStatus) {
 
-            case PENDING_PAYMENT ->
+            case PENDING, PENDING_PAYMENT ->
                     newStatus == AppointmentStatus.WAITING_CHECK_IN;
 
             case WAITING_CHECK_IN ->
@@ -1074,9 +979,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
     }
 
-    /*
-     * Helper kiểm tra lịch trong tương lai
-     */
     private boolean isScheduleInFuture(
             Schedule schedule
     ) {
@@ -1109,7 +1011,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentDto bookAppointment(AppointmentRequestDto request, String patientEmail) {
-       
+
         User patient = userRepository.findByEmail(patientEmail)
                 .orElseThrow(() -> new RuntimeException("Patient not found"));
 
@@ -1124,7 +1026,6 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new RuntimeException("Schedule is no longer available");
         }
 
-      
         Appointment appointment = Appointment.builder()
                 .patient(patient)
                 .doctorProfile(doctor)
@@ -1137,7 +1038,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointment = appointmentRepository.save(appointment);
 
-      
         schedule.setAvailable(false);
         scheduleRepository.save(schedule);
 
@@ -1169,7 +1069,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setStatus(AppointmentStatus.CANCELLED);
         appointment = appointmentRepository.save(appointment);
 
-        
         Schedule schedule = appointment.getSchedule();
         schedule.setAvailable(true);
         scheduleRepository.save(schedule);
@@ -1187,7 +1086,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         }
 
         Schedule oldSchedule = appointment.getSchedule();
-        
+
         LocalDate requestDate = LocalDate.parse(request.getDate());
         LocalTime requestTime = LocalTime.parse(request.getStartTime());
         Schedule newSchedule = getOrCreateSchedule(appointment.getDoctorProfile(), requestDate, requestTime);
@@ -1201,7 +1100,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         oldSchedule.setAvailable(true);
         scheduleRepository.save(oldSchedule);
-        
+
         newSchedule.setAvailable(false);
         scheduleRepository.save(newSchedule);
 
@@ -1209,12 +1108,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     private AppointmentDto mapToDto(Appointment a) {
-        String doctorName = a.getDoctorProfile() != null && a.getDoctorProfile().getUser() != null ? 
+        String doctorName = a.getDoctorProfile() != null && a.getDoctorProfile().getUser() != null ?
             a.getDoctorProfile().getUser().getFullName() : "Unknown";
-        String specialtyName = a.getDoctorProfile() != null && a.getDoctorProfile().getSpecialty() != null ? 
+        String specialtyName = a.getDoctorProfile() != null && a.getDoctorProfile().getSpecialty() != null ?
             a.getDoctorProfile().getSpecialty().getName() : "Unknown";
         Long doctorId = a.getDoctorProfile() != null ? a.getDoctorProfile().getId() : null;
-        
+
         return AppointmentDto.builder()
                 .id(a.getId())
                 .doctorId(doctorId)

@@ -119,7 +119,7 @@ const AppointmentDetailModal = ({ show, onHide, appointmentId, onCheckIn, onCanc
         {!loading && detail && (
           <>
             <Row className="g-4">
-              {/* Bệnh nhân */}
+              {}
               <Col md={6}>
                 <div
                   className="p-3 rounded-3"
@@ -137,7 +137,7 @@ const AppointmentDetailModal = ({ show, onHide, appointmentId, onCheckIn, onCanc
                 </div>
               </Col>
 
-              {/* Bác sĩ */}
+              {}
               <Col md={6}>
                 <div
                   className="p-3 rounded-3"
@@ -156,7 +156,7 @@ const AppointmentDetailModal = ({ show, onHide, appointmentId, onCheckIn, onCanc
                 </div>
               </Col>
 
-              {/* Trạng thái + thanh toán */}
+              {}
               <Col md={12}>
                 <div
                   className="p-3 rounded-3"
@@ -194,7 +194,7 @@ const AppointmentDetailModal = ({ show, onHide, appointmentId, onCheckIn, onCanc
               </Col>
             </Row>
 
-            {/* Action buttons */}
+            {}
             <div className="d-flex flex-wrap gap-2 mt-4 pt-3" style={{ borderTop: '1px solid #f1f5f9' }}>
               {detail.appointmentStatus === 'WAITING_CHECK_IN' && (
                 <button

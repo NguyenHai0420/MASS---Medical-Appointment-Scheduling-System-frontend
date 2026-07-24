@@ -23,12 +23,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         String jwt = authService.login(loginRequest);
-        
+
         Cookie cookie = new Cookie("accessToken", jwt);
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); // set true in production for HTTPS
+        cookie.setSecure(false);
         cookie.setPath("/");
-        cookie.setMaxAge(24 * 60 * 60); // 1 day
+        cookie.setMaxAge(24 * 60 * 60);
         response.addCookie(cookie);
 
         return ResponseEntity.ok(authService.getMe(loginRequest.getEmail()));
@@ -58,8 +58,6 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("message", "Logged out successfully!"));
     }
 
-    // --- Forgot Password Flow ---
-
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
@@ -88,11 +86,11 @@ public class AuthController {
         String email = request.get("email");
         String otp = request.get("otp");
         String newPassword = request.get("newPassword");
-        
+
         if (newPassword == null || newPassword.length() < 6) {
             return ResponseEntity.badRequest().body(Map.of("message", "Password must be at least 6 characters"));
         }
-        
+
         authService.resetPassword(email, otp, newPassword);
         return ResponseEntity.ok(Map.of("message", "Password reset successfully"));
     }

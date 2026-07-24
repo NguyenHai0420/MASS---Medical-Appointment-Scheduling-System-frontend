@@ -9,7 +9,7 @@ const DoctorList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchParams, setSearchParams] = useState({ name: '', specialtyId: '' });
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const DoctorList = () => {
       setError(null);
     } catch (err) {
       console.error("Failed to fetch doctors", err);
-      // For testing without backend, we can set mock data
+
       setDoctors([
         { id: 1, name: "Dr. Nguyen Van A", specialtyName: "Tim mạch", clinicName: "Phòng khám 1" },
         { id: 2, name: "Dr. Tran Thi B", specialtyName: "Nhi khoa", clinicName: "Phòng khám 2" }
@@ -53,7 +53,7 @@ const DoctorList = () => {
   return (
     <Container className="py-5">
       <h2 className="fw-bold mb-4 text-center">Our Doctors</h2>
-      
+
       <Card className="mb-4 shadow-sm">
         <Card.Body>
           <Form onSubmit={handleSearch}>
@@ -61,9 +61,9 @@ const DoctorList = () => {
               <Col md={5} className="mb-3 mb-md-0">
                 <Form.Group>
                   <Form.Label>Tên bác sĩ</Form.Label>
-                  <Form.Control 
-                    type="text" 
-                    placeholder="Nhập tên bác sĩ..." 
+                  <Form.Control
+                    type="text"
+                    placeholder="Nhập tên bác sĩ..."
                     value={searchParams.name}
                     onChange={(e) => setSearchParams({...searchParams, name: e.target.value})}
                   />
@@ -72,7 +72,7 @@ const DoctorList = () => {
               <Col md={5} className="mb-3 mb-md-0">
                 <Form.Group>
                   <Form.Label>Chuyên khoa</Form.Label>
-                  <Form.Select 
+                  <Form.Select
                     value={searchParams.specialtyId}
                     onChange={(e) => setSearchParams({...searchParams, specialtyId: e.target.value})}
                   >
@@ -80,7 +80,7 @@ const DoctorList = () => {
                     {specialties.map(spec => (
                       <option key={spec.id} value={spec.id}>{spec.name}</option>
                     ))}
-                    {/* Mock option for testing */}
+                    {}
                     <option value="1">Tim mạch</option>
                     <option value="2">Nhi khoa</option>
                   </Form.Select>
@@ -123,8 +123,8 @@ const DoctorList = () => {
                     <Card.Text>
                       <strong>Phòng khám:</strong> {doctor.clinicName}
                     </Card.Text>
-                    <Button 
-                      variant="outline-primary" 
+                    <Button
+                      variant="outline-primary"
                       className="w-100 mt-2"
                       onClick={() => navigate(`/doctors/${doctor.id}`)}
                     >

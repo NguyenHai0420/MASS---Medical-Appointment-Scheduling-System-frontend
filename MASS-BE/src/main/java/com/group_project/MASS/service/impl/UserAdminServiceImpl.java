@@ -50,9 +50,19 @@ public class UserAdminServiceImpl implements UserAdminService {
         if (request.getGender() != null) user.setGender(request.getGender());
         if (request.getAddress() != null) user.setAddress(request.getAddress());
         if (request.getRole() != null) {
-            user.setRole(Role.valueOf(request.getRole()));
+            Role newRole = Role.valueOf(request.getRole());
+            if (newRole == Role.ROLE_ADMIN && user.getRole() != Role.ROLE_ADMIN) {
+                throw new RuntimeException("Không thể gán quyền Admin. Hệ thống chỉ duy trì 1 tài khoản Admin.");
+            }
+            if (user.getRole() == Role.ROLE_ADMIN && newRole != Role.ROLE_ADMIN) {
+                throw new RuntimeException("Không thể thay đổi quyền của tài khoản Admin.");
+            }
+            user.setRole(newRole);
         }
         if (request.getActive() != null) {
+            if (user.getRole() == Role.ROLE_ADMIN && !request.getActive()) {
+                throw new RuntimeException("Không thể khóa tài khoản Admin.");
+            }
             user.setActive(request.getActive());
         }
 
@@ -63,6 +73,9 @@ public class UserAdminServiceImpl implements UserAdminService {
     public void deleteUser(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy user với id: " + id));
+        if (user.getRole() == Role.ROLE_ADMIN) {
+            throw new RuntimeException("Không thể khóa tài khoản Admin.");
+        }
         user.setActive(false);
         userRepository.save(user);
     }

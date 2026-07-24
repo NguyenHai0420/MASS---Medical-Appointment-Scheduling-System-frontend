@@ -29,7 +29,7 @@ public class DoctorProfile {
 
     @Column
     private String degree;
-    
+
     @Column(columnDefinition = "TEXT")
     private String description;
 }

@@ -61,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
             if (existingUser.getIsVerified() != null && existingUser.getIsVerified()) {
                 throw new RuntimeException("Error: Email is already in use and verified!");
             }
-            // Overwrite unverified user
+
             existingUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
             existingUser.setFullName(registerRequest.getFullName());
             userRepository.save(existingUser);
@@ -73,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .fullName(registerRequest.getFullName())
-                .role(Role.ROLE_PATIENT) // Default role for open registration
+                .role(Role.ROLE_PATIENT)
                 .isVerified(false)
                 .build();
 
@@ -108,13 +108,13 @@ public class AuthServiceImpl implements AuthService {
         tokenRepository.deleteByUser(user);
 
         String otp = String.format("%06d", new Random().nextInt(999999));
-        
+
         PasswordResetToken resetToken = PasswordResetToken.builder()
                 .token(otp)
                 .user(user)
                 .expiryDate(LocalDateTime.now().plusMinutes(15))
                 .build();
-                
+
         tokenRepository.save(resetToken);
         emailService.sendOtpEmail(email, otp);
     }
@@ -137,7 +137,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     public void resetPassword(String email, String otp, String newPassword) {
-        verifyOtp(email, otp); // Double check
+        verifyOtp(email, otp);
 
         User user = userRepository.findByEmail(email).get();
         user.setPassword(passwordEncoder.encode(newPassword));

@@ -35,10 +35,10 @@ public class Payment {
     private PaymentStatus paymentStatus;
 
     @Column(unique = true)
-    private String transactionId; // Reference from VNPAY/MOMO
+    private String transactionId;
 
     @Column(unique = true)
-    private Long orderCode; // Reference specifically for PayOS
+    private Long orderCode;
 
     @Column
     private LocalDateTime paymentDate;
