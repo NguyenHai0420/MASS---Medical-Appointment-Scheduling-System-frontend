@@ -113,7 +113,7 @@ const AppointmentListPage = () => {
 
   return (
     <main className="appt-page">
-      {}
+      { }
       <AppointmentHeroSection
         keyword={keyword}
         setKeyword={setKeyword}
@@ -122,7 +122,7 @@ const AppointmentListPage = () => {
         specialties={specialties}
       />
 
-      {}
+      { }
       <AppointmentListPosting
         appointments={visibleAppointments}
         isLoading={isLoading}
@@ -137,14 +137,14 @@ const AppointmentListPage = () => {
         onCancel={handleCancel}
       />
 
-      {}
+      { }
       <WalkInModal
         show={showWalkIn}
         onHide={() => setShowWalkIn(false)}
         onSuccess={handleWalkInSuccess}
       />
 
-      {}
+      { }
       <PaymentModal
         show={showPayment}
         onHide={() => { setShowPayment(false); setSelectedAppointment(null); }}
@@ -152,7 +152,7 @@ const AppointmentListPage = () => {
         onPaymentSuccess={fetchAppointments}
       />
 
-      {}
+      { }
       <AppointmentDetailModal
         show={showDetail}
         onHide={() => { setShowDetail(false); setSelectedAppointment(null); }}

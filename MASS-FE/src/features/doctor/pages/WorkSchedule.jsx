@@ -4,7 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import DashboardLayout from "../../../shared/components/DashboardLayout";
 import doctorService from "../services/doctorService";
 
-export default function WorkSchedulePage() {
+export default function WorkSchedule() {
     const [schedules, setSchedules] = useState([]);
 
     useEffect(() => {
